@@ -9,9 +9,9 @@
 <body>
 <div class = "container">
     <div class = "buttons" style = "display: inline-block">
-        <button id = "delete">Delete</button>
-        <button id = "block" type = "submit">Block</button>
-        <button id = "unblock" type = "submit">Unblock</button>
+        <button id = "delete" class="control-btn">Delete</button>
+        <button id = "block" type = "submit"  class="control-btn">Block</button>
+        <button id = "unblock" type = "submit" class="control-btn">Unblock</button>
     </div>
 </div>
 
@@ -59,15 +59,21 @@
     <script>
         jQuery(document).ready(function($){
             let values = []
-            $("#delete").on('click', function(){
+            $(".control-btn").on('click', function(){
                 $('[name="user-select"]:checked').each(function(){
                     values.push($(this).val());
                 });
-
+                let btn_id = $(this).prop("id");
+                let request_method;
+                if (btn_id === 'delete') {
+                    request_method = "POST"
+                } else {
+                    request_method = "PUT"
+                }
                 (async function(values) {
-                    await fetch("http://localhost:8080/users/delete",
+                    await fetch(this.window.location + "/" + btn_id,
                         {
-                            method: "POST",
+                            method: request_method,
                             headers: {
                                 'Content-Type': 'application/json'
                             },
@@ -80,53 +86,6 @@
         });
     </script>
 
-    <script>
-        jQuery(document).ready(function($){
-            let values = []
-            $("#block").on('click', function(){
-                $('[name="user-select"]:checked').each(function(){
-                    values.push($(this).val());
-                });
-
-                (async function(values) {
-                    await fetch("http://localhost:8080/users/block",
-                        {
-                            method: "PUT",
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(values)
-                        })
-                    location.reload();
-                })(values);
-            });
-
-        });
-    </script>
-
-    <script>
-        jQuery(document).ready(function($){
-            let values = []
-            $("#unblock").on('click', function(){
-                $('[name="user-select"]:checked').each(function(){
-                    values.push($(this).val());
-                });
-
-                (async function(values) {
-                    await fetch("http://localhost:8080/users/unblock",
-                        {
-                            method: "PUT",
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            //body: JSON.stringify({id: values})
-                            body: JSON.stringify(values)
-                        })
-                    location.reload();
-                })(values);
-            });
-
-        });
     </script>
 </div>
 </body>
