@@ -14,7 +14,7 @@
     <name>itransition-3</name>
     <description>itransition-3</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
     <dependencies>
         <dependency>
